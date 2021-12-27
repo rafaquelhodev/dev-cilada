@@ -17,7 +17,7 @@ class CiladaClassifier:
     ) -> None:
         self.perks = perks
         self.cilada_threshold = cilada_threshold
-        self.identifier = identifier if identifier else uuid4()
+        self.identifier = identifier if identifier else str(uuid4())
 
 
 class JobProposal:
