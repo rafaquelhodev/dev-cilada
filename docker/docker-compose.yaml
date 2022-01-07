@@ -1,0 +1,10 @@
+version: '3'
+services:
+  cilada-db:
+    build: postgres
+    container_name: cilada-db
+    environment:
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_USER=postgres
+    ports:
+      - "5432:5432"

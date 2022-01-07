@@ -3,3 +3,4 @@ pytest
 pytest-mock
 black
 SQLAlchemy==1.4.27
+psycopg2==2.9.3
