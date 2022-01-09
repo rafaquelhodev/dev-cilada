@@ -4,7 +4,7 @@ from typing import Set
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
-from cilada.domain import CiladaClassifier
+from cilada.domain import CiladaClassifier, Perk
 from cilada import config
 
 
@@ -15,6 +15,10 @@ class ClassifierRepository(ABC):
 
     @abc.abstractmethod
     def get(self, identifier: str) -> CiladaClassifier:
+        pass
+
+    @abc.abstractmethod
+    def get_perks(self, identifier: str, perks_identifier: Set[str]) -> Set[Perk]:
         pass
 
 
@@ -32,6 +36,18 @@ class ClassifierRepositoryMemory(ClassifierRepository):
         )
 
         return classifier
+
+    def get_perks(self, identifier: str, perks_identifier: Set[str]) -> Set[Perk]:
+        classifier = self.get(identifier)
+
+        all_perks = classifier.perks
+
+        perks = set()
+        for perk in all_perks:
+            if perk.identifier in perks_identifier:
+                perks.add(perk)
+
+        return perks
 
 
 DEFAULT_SESSION_FACTORY = sessionmaker(bind=config.get_engine())
@@ -52,3 +68,15 @@ class ClassifierRepositorySqlAlchemy(ClassifierRepository):
         )
 
         return classifier
+
+    def get_perks(self, identifier: str, perks_identifier: Set[str]) -> Set[Perk]:
+
+        perks = (
+            self.session.query(Perk)
+            .filter(Perk.classifier_id == CiladaClassifier.id)
+            .filter(Perk.identifier.in_(list(perks_identifier)))
+            .filter(CiladaClassifier.identifier == identifier)
+            .all()
+        )
+
+        return perks

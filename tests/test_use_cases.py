@@ -44,7 +44,7 @@ class TestClassifyJobProposal:
         classify = ClassifyJobProposal(
             repository=repo,
             identifier=identifier,
-            perks={tem_cafe, casa_do_chefe},
+            perks_uuid={tem_cafe.identifier, casa_do_chefe.identifier},
             classifier_finder=find_classifier,
         )
 
@@ -70,7 +70,7 @@ class TestClassifyJobProposal:
         classify = ClassifyJobProposal(
             repository=repo,
             identifier=identifier,
-            perks={tem_cafe},
+            perks_uuid={tem_cafe.identifier},
             classifier_finder=find_classifier,
         )
 

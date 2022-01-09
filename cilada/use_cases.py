@@ -38,17 +38,21 @@ class ClassifyJobProposal:
         self,
         identifier: str,
         repository: ClassifierRepository,
-        perks: Set[Perk],
+        perks_uuid: Set[str],
         classifier_finder: FindClassifier,
     ) -> None:
         self.identifier = identifier
         self.repository = repository
-        self.perks = perks
+        self.perks_uuid = perks_uuid
         self.classifier_finder = classifier_finder
 
     def execute(self):
         classifier = self.classifier_finder.execute()
 
-        job_proposal = JobProposal(classifier=classifier, perks=self.perks)
+        perks = self.repository.get_perks(
+            identifier=self.identifier, perks_identifier=self.perks_uuid
+        )
+
+        job_proposal = JobProposal(classifier=classifier, perks=perks)
 
         return job_proposal.is_cilada()
