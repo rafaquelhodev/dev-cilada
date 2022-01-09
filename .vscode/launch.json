@@ -5,6 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Fastapi",
+            "type": "python",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "cilada.entrypoints.fastapi:app",
+                "--reload",
+            ],
+            "env": {
+                "PYTHONBUFFERED": "1",
+                "PYTHONPATH": "${workspaceRoot}",
+            }
+        },
+        {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",

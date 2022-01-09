@@ -21,6 +21,7 @@ perks = Table(
     Column("id", Integer, primary_key=True, autoincrement=True),
     Column("description", String(255), nullable=False),
     Column("cilada_points", Integer, nullable=False),
+    Column("identifier", String, nullable=False),
     Column("classifier_id", Integer, ForeignKey("classifiers.id")),
 )
 

@@ -3,9 +3,12 @@ from uuid import uuid4
 
 
 class Perk:
-    def __init__(self, description: str, cilada_points: int) -> None:
+    def __init__(
+        self, description: str, cilada_points: int, identifier: str = None
+    ) -> None:
         self.description = description
         self.cilada_points = cilada_points
+        self.identifier = identifier if identifier else str(uuid4())
 
 
 class CiladaClassifier:
