@@ -21,7 +21,7 @@ async def root():
 
 
 @app.get("/classifiers/{identifier}")
-def read_item(identifier: str):
+def read_classifier(identifier: str):
     repo = ClassifierRepositorySqlAlchemy()
 
     find_classifier = FindClassifier(identifier, repo)
@@ -31,10 +31,10 @@ def read_item(identifier: str):
 
 
 @app.post("/classifiers/")
-async def create_item(classifier: classifiers_adapter.BaseClassifier):
+async def create_classifier(classifier: classifiers_adapter.BaseClassifier):
     repo = ClassifierRepositorySqlAlchemy()
 
-    perks = perks_adapter.adapt_to_domain(classifier.perks)
+    perks = perks_adapter.adapt_base_to_domain(classifier.perks)
 
     create_classifier = CreateClassifier(perks, classifier.cilada_threshold, repo)
     identifier = create_classifier.execute()
@@ -43,7 +43,7 @@ async def create_item(classifier: classifiers_adapter.BaseClassifier):
 
 
 @app.post("/classify/")
-async def create_item(job_proposal: job_proposal_adapter.BaseJobProposal):
+async def classify_job(job_proposal: job_proposal_adapter.BaseJobProposal):
     repo = ClassifierRepositorySqlAlchemy()
 
     find_classifier = FindClassifier(job_proposal.classifier, repo)

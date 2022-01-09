@@ -13,11 +13,17 @@ class BaseClassifier(BaseModel):
         arbitrary_types_allowed = True
 
 
-def adapt_perk_base(perks):
+class BaseViewClassifier(BaseClassifier):
+    perks: List[perks_adapter.PerkView]
+
+
+def adapt_perk_view(perks):
     return list(
         map(
-            lambda x: perks_adapter.PerkBase(
-                description=x.description, cilada_points=x.cilada_points
+            lambda x: perks_adapter.PerkView(
+                description=x.description,
+                cilada_points=x.cilada_points,
+                identifier=x.identifier,
             ),
             perks,
         )
@@ -27,7 +33,7 @@ def adapt_perk_base(perks):
 def to_view(classifier: domain.CiladaClassifier):
     perks = classifier.perks
 
-    perks_adapted = adapt_perk_base(perks)
+    perks_adapted = adapt_perk_view(perks)
 
     return BaseClassifier(
         perks=perks_adapted, cilada_threshold=classifier.cilada_threshold
