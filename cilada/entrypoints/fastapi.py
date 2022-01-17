@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from cilada import config
 from cilada.adapters import perks as perks_adapter
@@ -9,6 +10,18 @@ from cilada.repository import ClassifierRepositorySqlAlchemy
 from cilada.use_cases import ClassifyJobProposal, CreateClassifier, FindClassifier
 
 app = FastAPI()
+
+origins = [
+    config.get_frontend_url(),
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 engine = config.get_engine()
 mapper_registry.metadata.create_all(engine)
