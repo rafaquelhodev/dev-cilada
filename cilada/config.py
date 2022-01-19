@@ -15,3 +15,9 @@ def get_engine(get_db_uri=get_postgres_uri):
         get_db_uri(),
         isolation_level="REPEATABLE READ",
     )
+
+
+def get_frontend_url():
+    uri = os.environ.get("FRONT_URI", "http://localhost")
+    port = os.environ.get("FRONT_PORT", "3000")
+    return f"{uri}:{port}"

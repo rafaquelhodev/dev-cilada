@@ -14,7 +14,9 @@ class CreateClassifier:
         self.repository = repository
 
     def execute(self):
-        cilada_classifier = CiladaClassifier(perks=self.perks, cilada_threshold=20)
+        cilada_classifier = CiladaClassifier(
+            perks=self.perks, cilada_threshold=self.cilada_threshold
+        )
         identifier = self.repository.add(classifier=cilada_classifier)
         return identifier
 
